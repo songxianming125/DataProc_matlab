@@ -1,0 +1,48 @@
+function s=registerVIP
+s='register failed';
+PasswordFile=fullfile(getDProot, 'psw.pswl');
+
+fid = fopen(PasswordFile,'r');
+encrString= fread(fid, '*char')';
+status = fclose(fid);
+
+[~,r]=dos('ipconfig/all');
+machineAddressPattern='(?<=\x3A\x20)([0-9A-F][0-9A-F]\x2D){5}[0-9A-F][0-9A-F](?=[^\x2D])';
+machineAddress=regexp(r,machineAddressPattern,'match','once');
+
+machineString=[];
+defUser='0';
+defPsw='';
+
+[machinecode,code]=registerdlg(defUser,defPsw);
+
+%% initial
+
+bigPrime=60491;
+keyFirst=29;
+% bigPrime=143;
+% keyFirst=23;
+
+myString=encrRSA(code,bigPrime,keyFirst);
+TF=strcmp(myString,encrString);
+if TF
+    PasswordFile(end)=[]; 
+    if exist(PasswordFile,'file')
+        delete(PasswordFile)
+    end
+    defUser='swip\';
+    defPsw='';
+
+    [user,psw]=logindlg(defUser,defPsw);
+    
+    machineString=[machineString encrRSA(user,bigPrime,keyFirst) char(13) char(10)];
+    machineString=[machineString encrRSA(psw,bigPrime,keyFirst) char(13) char(10)];
+    
+    machineString=[machineString encrRSA(machineAddress,bigPrime,keyFirst) char(13) char(10)];
+     
+    fid = fopen(PasswordFile,'w');
+    fwrite(fid,machineString, 'char');
+    status = fclose(fid);
+    s='register OK';
+end
+return
