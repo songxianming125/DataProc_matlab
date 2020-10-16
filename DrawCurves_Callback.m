@@ -414,10 +414,13 @@ switch lower(k)
         return
     case {'o','O'}
 %         s=myAddShadow([], [],[],0); % mouse input
-        s=myAddArrowText();
+        s=myAddShadow([], [],[],3); % Line with comment
+        return
+    case {'e','E'}
+        s=myAddShadow([], [],[],2); % Emphasis with comment
         return
     case {'a','A'}
-        s=myAddShadow([], [],[],1); % text input
+        s=myAddShadow([], [],[],1); % text input Emphasis with comment
         return
         if MyPicStruct.YAutoInteger==0
             MyPicStruct.YAutoInteger=1;
@@ -1303,7 +1306,7 @@ if MyPicStruct.CurveNameMode==1;
     cfgitem4 = uimenu(cfgmenu, 'Label', 'ShowLastShot', 'Callback', {@ShowLastShot,handles});
 end
 cfgitem5 = uimenu(cfgmenu, 'Label', 'Sizable', 'Callback', {@mySizable,handles});
-cfgitem6 = uimenu(cfgmenu, 'Label', 'AddShadow', 'Callback', {@myAddShadow,handles,1});
+cfgitem6 = uimenu(cfgmenu, 'Label', 'AddShadow', 'Callback', {@myAddShadow,handles,0});
 cfgitem7 = uimenu(cfgmenu, 'Label', 'ShowMenu', 'Callback', {@myShowMenu,handles});
 cfgitem8 = uimenu(cfgmenu, 'Label', 'SetFigureSize', 'Callback', {@SetFigureSize,handles});
 cfgitem9 = uimenu(cfgmenu, 'Label', 'ChangeLayer', 'Callback', {@myChangeLayer,handles});
