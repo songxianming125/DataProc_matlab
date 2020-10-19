@@ -8,10 +8,17 @@ CurrentChannel=channelTransfer(CurrentChannel);
 
 
 z=[];
+Unit='au';
 if strcmp('@',CurrentChannel(1))
     [y,x,Unit]=exl50Formula(CurrentShot,CurrentChannel,varargin{:});
 elseif strcmp('_',CurrentChannel(1))
     [y,x,Unit,z]=exl50Formula(CurrentShot,CurrentChannel,varargin{:});
+elseif strcmp('=',CurrentChannel(1))
+    [Expression,Dependence]=GetFormula(CurrentChannel);
+    [y,x]=Formula(CurrentShot,Expression,Dependence);
+    % check whether there is any inf
+    index=find(isinf(y));
+    y(index)=1./max(abs(y));
 else
     strTreeName=getTreeName(machine,CurrentChannel); %
     [server,~] = getIpTree4Machine(machine);

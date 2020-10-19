@@ -21,6 +21,8 @@ function [vecY,VecT,varargout]=Formula(CurrentShot,Expression,varargin)
 % 1         VecT                double array    output t
 % 0         strSys              char            system name
 % 0         strUnit             char            unit name
+machine=getappdata(0,'machine');
+
 Dependence=[];
 vecY=[];
 VecT=[];
@@ -35,6 +37,7 @@ Expression=strrep(Expression,'"','');
 Expression=lower(Expression);
 Expression=strrep(Expression,'[','');
 Expression=strrep(Expression,']','');
+%% change the operator to array operator for example * ->.*
 Expression=regexprep(Expression,'(?<!\.)([/*///^])','.$1');
 
 Expression=lower(Expression);
@@ -63,10 +66,14 @@ if ~isempty(Dependence)
             curchannels=unique(curchannels);  %
             if strmatch(mysystem,'ccs','exact')
                 for j=1:length(curchannels)
-
-                    mycommand=['[y,t]=hl2adb(' num2str(CurrentShot) ',curchannels{',num2str(j),'},mysystem);'];
-%                    another way to get data 
-%                     mycommand=['[y,t]=hl2adb(' num2str(CurrentShot) ',''' curchannels{i1} ''',''' mysystem ''');'];
+                    switch machine
+                        case {'hl2a','hl2m'}                          
+                            mycommand=['[y,t]=' machine 'db(' num2str(CurrentShot) ',curchannels{',num2str(j),'},mysystem);'];
+                        otherwise
+                            mycommand=['[y,t]=' machine 'db(' num2str(CurrentShot) ',curchannels{',num2str(j),'});'];
+                    end
+                    
+                    
                     eval(mycommand)
                     if isempty(t)
                         msgbox(['the channel (' curchannels{j} ') is not found'])
@@ -87,7 +94,13 @@ if ~isempty(Dependence)
 
                 end
             else
-                mycommand=['[y,t]=hl2adb(' num2str(CurrentShot) ',curchannels,mysystem);'];
+                
+                switch machine
+                    case {'hl2a','hl2m'}
+                        mycommand=['[y,t]=' machine 'db(' num2str(CurrentShot) ',curchannels,mysystem);'];
+                    otherwise
+                        mycommand=['[y,t]=' machine 'db(' num2str(CurrentShot) ',curchannels);'];
+                end
                 eval(mycommand)
                 if isempty(t)
                     msgbox(['the channel (' curchannels{1} ') is not found'])
@@ -149,7 +162,7 @@ for i=1:length(myvarname)
                 mypattern=['^(' myvar ')(?=\W)|(?<=\W)(' myvar ')(?=\W)|(?<=\W)(' myvar ')$'];
                 Expression=regexprep(Expression ,mypattern,['y' myvar]); %name conditioning
                 
-                mycommand=['[y' myvar ',t]=hl2adb(' num2str(CurrentShot) ',' char(39) myChannel char(39) ');'];
+                mycommand=['[y' myvar ',t]=' machine 'db(' num2str(CurrentShot) ',' char(39) myChannel char(39) ');'];
                 
                 eval(mycommand)
                 if isempty(t)

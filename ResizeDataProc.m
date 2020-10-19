@@ -66,8 +66,8 @@ set(handles.DrawCurves,'Units','pixels','Position',[w/2,b,w/2,h])
 set(handles.CConfiguration,'Units','pixels','Position',[0,b,w/2,h])
 set(handles.CChannels,'Units','pixels','Position',[w/2,b,w/2,h])
 
-set(handles.EqualFormula,'Units','pixels','Position',[0,b,w/2,h],'Enable','off')
-set(handles.DefineFormula,'Units','pixels','Position',[w/2,b,w/2,h],'Enable','off')
+set(handles.EqualFormula,'Units','pixels','Position',[0,b,w/2,h],'Enable','on')
+set(handles.DefineFormula,'Units','pixels','Position',[w/2,b,w/2,h],'Enable','on')
 
 set(handles.YMode,'Units','pixels','Position',[0,b,w/2,h],'Enable','off')
 set(handles.InitPic,'Units','pixels','Position',[w/2,b,w/2,h],'Enable','off')

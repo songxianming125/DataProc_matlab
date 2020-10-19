@@ -3,6 +3,10 @@ function MyChanList=channelTransfer(MyChanList)
 %% transfer the user channel to HL-2A channel
 
 if 1  %% exl50
+    if iscell(MyChanList)
+        MyChanList=MyChanList{1};
+    end
+
     switch  MyChanList
         case {'IP','ip','Ip','iP'}
             MyChanList = regexprep(MyChanList, MyChanList,'ip','ignorecase');  %

@@ -2,8 +2,8 @@ function [Expression,Dependence]=GetFormula(CurrentChannel)
 %get the formula from the file Formula.txt by the channel name
 Expression=[];
 Dependence=[];
-MyPath= which('DP');
-FormulaFile=[MyPath(1:end-4) 'configurations' filesep 'Formula.txt'];
+machine=getappdata(0,'machine');
+FormulaFile=fullfile(getDProot('configurations'),[machine 'Formula.txt']);
 
 
 fid = fopen(FormulaFile,'r');

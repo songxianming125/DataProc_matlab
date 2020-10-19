@@ -3247,6 +3247,8 @@ bFacMode=1;
 
 
 function DefineFormula_Callback(hObject, eventdata, handles)
+machine=getappdata(0,'machine');
+
 
 hfigNames=figure('resize','off','Name','Calculate the expression');
 %         setappdata(0,'bCalculateOK',0);
@@ -3318,7 +3320,7 @@ hLabelChannelNames=uicontrol('parent',                   hfigNames,...
     'FontSize',                 14,...
     'style', 'text',...
     'Position',[dLeft(1)+2.02*dWidth(1) scrsz(2)-3*hstep+hListbox 2*dWidth(1) scrsz(4)/40 ],...
-    'String', 'CurrentName');
+    'String', 'CurrentNames');
 hChannelName=uicontrol('parent',                   hfigNames,...
     'Units',                    'pixels', ...
     'BackgroundColor',          'm',...
@@ -3361,31 +3363,64 @@ hDisplay=axes('parent',                   hfigNames,...
     'FontWeight',               'bold', ...
     'FontSize',                 14,...
     'Position',[dLeft(1) scrsz(2)-28*hstep+hListbox 11*dWidth(1) 20*hstep]);
-hChannelSelect = uicontrol('parent',                   hfigNames,...
-    'Units',                    'pixels', ...
-    'String',                  '', ...
-    'BackgroundColor',          'w',...
-    'Position',                 [wListbox+wstep/2 scrsz(2)+hstep wListbox+wstep/2 hListbox ],...
-    'HorizontalAlignment',      'left', ...
-    'FontWeight',               'bold', ...
-    'FontSize',                 12,...
-    'Style',                    'listbox', ...
-    'Enable',                   'on', ...
-    'Tooltipstring',            'Select the channel');
-hFileSelect = uicontrol('parent',                   hfigNames,...
-    'Units',                    'pixels', ...
-    'String',                  '', ...
-    'BackgroundColor',          'w',...
-    'Position',                 [0 scrsz(2)+hstep wListbox+wstep/2 hListbox ],...
-    'HorizontalAlignment',      'left', ...
-    'FontWeight',               'bold', ...
-    'FontSize',                 12,...
-    'Style',                    'listbox', ...
-    'Enable',                   'on', ...
-    'callback',                {@myhFileSelect,hChannelSelect,hFile,hDependence},...
-    'Tooltipstring',            'Select the channel');
 
-LastestShot=GetLastestShot;
+switch machine
+    case {'hl2a','hl2m'}
+        hChannelSelect = uicontrol('parent',                   hfigNames,...
+            'Units',                    'pixels', ...
+            'String',                  '', ...
+            'BackgroundColor',          'w',...
+            'Position',                 [wListbox+wstep/2 scrsz(2)+hstep wListbox+wstep/2 hListbox ],...
+            'HorizontalAlignment',      'left', ...
+            'FontWeight',               'bold', ...
+            'FontSize',                 12,...
+            'Style',                    'listbox', ...
+            'Enable',                   'on', ...
+            'Tooltipstring',            'Select the channel');
+        
+        hFileSelect = uicontrol('parent',                   hfigNames,...
+            'Units',                    'pixels', ...
+            'String',                  '', ...
+            'BackgroundColor',          'w',...
+            'Position',                 [0 scrsz(2)+hstep wListbox+wstep/2 hListbox ],...
+            'HorizontalAlignment',      'left', ...
+            'FontWeight',               'bold', ...
+            'FontSize',                 12,...
+            'Style',                    'listbox', ...
+            'Enable',                   'on', ...
+            'callback',                {@myhFileSelect,hChannelSelect,hFile,hDependence},...
+            'Tooltipstring',            'Select the channel');
+            set(hChannelSelect,'callback',{@myChannelSelect,hExpression,hDependence,hShotNumber,hFile,hDisplay})
+    otherwise
+        hChannelSelect = uicontrol('parent',                   hfigNames,...
+            'Units',                    'pixels', ...
+            'String',                  '', ...
+            'BackgroundColor',          'w',...
+            'Position',                 [wListbox+wstep/2 scrsz(2)+hstep wListbox+wstep/2 hListbox ],...
+            'HorizontalAlignment',      'left', ...
+            'FontWeight',               'bold', ...
+            'FontSize',                 12,...
+            'Style',                    'listbox', ...
+            'Enable',                   'on', ...
+            'callback',                {@myhChannelSelectSet,hExpression,hDependence},...
+            'Tooltipstring',            'Select the channel');
+        
+        hFileSelect = uicontrol('parent',                   hfigNames,...
+            'Units',                    'pixels', ...
+            'String',                  '', ...
+            'BackgroundColor',          'w',...
+            'Position',                 [0 scrsz(2)+hListbox wListbox+wstep/2 scrsz(4)/40 ],...
+            'HorizontalAlignment',      'left', ...
+            'FontWeight',               'bold', ...
+            'FontSize',                 12,...
+            'Style',                    'edit', ...
+            'Enable',                   'on', ...
+            'callback',                {@myhChannelSelectFind,hChannelSelect},...
+            'Tooltipstring',            'Select the channel');
+end
+
+
+LastestShot=GetLastestShot-1;
 hShotNumber=uicontrol('parent',                   hfigNames,...
     'Units',                    'pixels', ...
     'BackgroundColor',          'm',...
@@ -3420,17 +3455,53 @@ for i=1:length(sCommand)
         'String', sCommand{i},...
         'callback', {@myhCommandRun,hExpression,i,hChannelName,hDependence,hDisplay,hShotNumber});
 end
-set(hChannelSelect,'callback',{@myChannelSelect,hExpression,hDependence,hShotNumber,hFile,hDisplay})
-myhShotNumber(hShotNumber, eventdata, hFileSelect)
+
+switch machine
+    case {'hl2a','hl2m'}
+           myhShotNumber(hShotNumber, eventdata, hFileSelect)
+    otherwise
+end
 CurrentChannels=GetFormulaNames;
+
 set(hChannelNames,'String',CurrentChannels,'value',1);
 set(hChannelName,'String',CurrentChannels{1});
+
 set(hChannelNames,'callback',{@myChannelNames,hChannelName,hExpression,hDependence});
 set(hChannelName,'callback',{@myChannelName,hExpression,hDependence});
 [Expression,Dependence]=GetFormula(CurrentChannels{1});
 set(hExpression,'String',Expression);
 set(hDependence,'String',Dependence);
 %----------------------------------------------------
+function myhChannelSelectSet(hObject, eventdata, hExpression,hDependence)
+channels=get(hObject,'String');
+value=get(hObject,'value');
+if iscell(channels)
+    myChan=channels{value};
+else
+    myChan=channels;
+end
+
+myExpression=get(hExpression,'String');
+myExpression=[myExpression myChan];
+set(hExpression,'String',myExpression);
+
+myDependence=get(hDependence,'String');
+machine=getappdata(0,'machine');
+treeFinded=getTreeName(machine,myChan);
+
+set(hDependence,'String',[myDependence ';' treeFinded{1} ':' myChan]);
+
+
+
+function myhChannelSelectFind(hObject, eventdata, hChannelSelect)
+set(hChannelSelect,'value',1);
+
+channelPattern=get(hObject,'String');
+channels = getChannelsFromPattern( channelPattern);
+set(hChannelSelect,'String',channels);
+
+
+
 function myChannelNames(hObject, eventdata, hChannelName,hExpression,hDependence)
 ChannelNames=get(hObject,'String');
 set(hChannelName,'String',ChannelNames{get(hObject,'Value')})
@@ -3534,6 +3605,9 @@ return
 function myhCommandRun(hObject, eventdata,hExpression, index,hChannelName,hDependence,hDisplay,hShotNumber)
 global handles
 handles=getappdata(0,'handles');
+machine=getappdata(0,'machine');
+FormulaFile=fullfile(getDProot('configurations'),[machine 'Formula.txt']);
+
 switch index
     case 1 % inbase
     case 2 % incurve
@@ -3547,10 +3621,12 @@ switch index
         
     case 4 %save
         mychannelname=get(hChannelName,'String');
+        if isempty(mychannelname)
+            mychannelname='=a';
+        end
         myexpression=get(hExpression,'String');
         mydependence=get(hDependence,'String');
         MyPath= which('DP');
-        FormulaFile=[MyPath(1:end-4) 'configurations' filesep 'Formula.txt'];
         fid = fopen(FormulaFile,'r');
         remain = fread(fid, '*char')';
         status = fclose('all');
@@ -3586,28 +3662,6 @@ switch index
             fwrite(fid,remain,'char');
             status = fclose('all');
         end
-        %         k = strfind(remain, char(13));
-        %         k = strfind(remain, mychannelname);
-        %         if isempty(k)
-        %             fid = fopen(FormulaFile,'a+');
-        %             fwrite(fid,mychannelname,'char');
-        %             fwrite(fid,[char(13) char(10)],'char');
-        %             fwrite(fid,myexpression,'char');
-        %             fwrite(fid,[char(13) char(10)],'char');
-        %             fwrite(fid,mydependence,'char');
-        %             fwrite(fid,[char(13) char(10)],'char');
-        %             status = fclose('all');
-        %         else
-        %             delete(FormulaFile)
-        %             mypattern=['\' mychannelname char(13) char(10) '[^\=]+'];
-        %             myvarname=regexp(remain, mypattern, 'match');%|\.[\*\/\^]
-        % %             Expression=regexprep(Expression,'(?<!\.)([/*///^])','.$1');
-        %             remain=strrep(remain,myvarname{1},[mychannelname char(13) char(10) myexpression char(13) char(10) mydependence char(13) char(10)]);
-        %
-        %             fid = fopen(FormulaFile,'a+');
-        %             fwrite(fid,remain,'char');
-        %             status = fclose('all');
-        %         end
     case 5 %load
         CurrentChannel=get(hChannelName,'String');
         [Expression,Dependence]=GetFormula(CurrentChannel);
@@ -3618,7 +3672,6 @@ switch index
         MyPicStruct=View2Struct(handles);
         % calculate
         CurrentShot=str2num(get(hShotNumber,'String'));
-        %         LastestShot=GetLastestShot-1;
         myexpression=get(hExpression,'String');
         mychannelname=get(hChannelName,'String');
         mydependence=get(hDependence,'String');
@@ -3655,26 +3708,55 @@ CurrentShot=str2num(MyShot1);
 set(handles,'String',Mylist);
 %----------------------------------------------------
 function CurrentChannels=GetFormulaNames
-MyPath= which('DP');
-FormulaFile=[MyPath(1:end-4) 'configurations' filesep 'Formula.txt'];
-fid = fopen(FormulaFile,'r');
-remain = fread(fid, '*char')';
-status = fclose('all');
-
-if ispc
-    mytok =[char(13) char(10)];
-elseif isunix
-    mytok =[char(10)];
+CurrentChannels={''};
+machine=getappdata(0,'machine');
+switch machine
+    case {'hl2a','hl2m'}
+        
+        FormulaFile=fullfile(getDProot('configurations'),['' 'Formula.txt']);
+        
+        fid = fopen(FormulaFile,'r');
+        remain = fread(fid, '*char')';
+        status = fclose('all');
+        
+        if ispc
+            mytok =[char(13) char(10)];
+        elseif isunix
+            mytok =[char(10)];
+        end
+        
+        
+        k = strfind(remain, mytok);
+        for i=1:(length(k)+1)/3
+            [mychannelname, remain] = strtok(remain, mytok);
+            CurrentChannels{i}=mychannelname;
+            [myexpression, remain] = strtok(remain, mytok);
+            [mydependence, remain] = strtok(remain, mytok);
+        end
+        
+    otherwise
+        FormulaFile=fullfile(getDProot('configurations'),[machine 'Formula.txt']);
+        
+        fid = fopen(FormulaFile,'r');
+        remain = fread(fid, '*char')';
+        status = fclose('all');
+        
+        if ispc
+            mytok =[char(13) char(10)];
+        elseif isunix
+            mytok =[char(10)];
+        end
+        
+        
+        k = strfind(remain, mytok);
+        for i=1:(length(k)+1)/3
+            [mychannelname, remain] = strtok(remain, mytok);
+            CurrentChannels{i}=mychannelname;
+            [myexpression, remain] = strtok(remain, mytok);
+            [mydependence, remain] = strtok(remain, mytok);
+        end
 end
 
-
-k = strfind(remain, mytok);
-for i=1:(length(k)+1)/3
-    [mychannelname, remain] = strtok(remain, mytok);
-    CurrentChannels{i}=mychannelname;
-    [myexpression, remain] = strtok(remain, mytok);
-    [mydependence, remain] = strtok(remain, mytok);
-end
 
 % --------------------------------------------------------------------
 function FacMode_Callback(hObject, eventdata, handles)
