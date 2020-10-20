@@ -12,7 +12,7 @@ global   MyCurves handles
 s=1;
 if isstruct(handles) && ishandle(handles.DP)
     try
-        
+        CurrentChannel='mySignal';
         signalName='y';
         Unit='au';
         TimeUnit='s';
@@ -91,7 +91,7 @@ if isstruct(handles) && ishandle(handles.DP)
         end%CurrentIndex
         s=SetMyCurves(MyCurveList);
     catch
-        ShowWarning(CurrentShot,strcat('no curve/', nMyCurveList),handles)
+        ShowWarning(CurrentShot,strcat('no curve/', CurrentChannel),handles)
     end
     
 else
