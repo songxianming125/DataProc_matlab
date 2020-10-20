@@ -1,7 +1,7 @@
 function [y,x,varargout]=exl50db(CurrentShot,CurrentChannel,varargin)
 %% CurrentChannel should be definite
 machine='exl50';
-
+setappdata(0,'machine',machine);
 %build a bridge to transfer the client channel to database one
 
 CurrentChannel=channelTransfer(CurrentChannel);

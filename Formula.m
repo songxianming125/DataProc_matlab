@@ -1,19 +1,11 @@
 function [vecY,VecT,varargout]=Formula(CurrentShot,Expression,varargin)
-%[vecY,vecT,strSys,strUnit]=Formula(iCurrentShot,strCurrentChannel,strExpression,
-%iTend/strInfFilePath,iInterpPeriod/strFrequency,strCurrentSysName,strInfFilePath);
+%[vecY,vecT,strSys,strUnit]=Formula(iCurrentShot,strExpression,varargin);
 %
 % input
 % option  VarName             DataType           Meaning
 % 1      iCurrentShot:       int                shot number
-% 1      strCurrentChannel:  char/cell array     channel name(s)
 % 1      strExpression:     char/cell array     expression(s)
-% 0      strDpendence:     char/cell array      dependence(s)
-% 0      iTstart/strSys:     int/char         starting time/system
-% 0      iTend:              int/double         ending time
-% 0      iInterpPeriod:      int/double         interpolation time
-% 0      strFrequency:     char              frequency in Hz
-% 0      strCurrentSysName:  char        system name which the channel belongs to 
-% 0      strInfFilePath:     char        path for the information file other than HL-2A database, such as your local file
+% 0      strDpendence=varargin{1}:     char/cell array      dependence(s)
 % option=1 means the item is necessary, option=0 means the item is optional
 % output:
 % option    VarName             DataType        Meaning      
@@ -21,7 +13,7 @@ function [vecY,VecT,varargout]=Formula(CurrentShot,Expression,varargin)
 % 1         VecT                double array    output t
 % 0         strSys              char            system name
 % 0         strUnit             char            unit name
-machine=getappdata(0,'machine');
+machine= getMachineName;
 
 Dependence=[];
 vecY=[];
@@ -131,7 +123,6 @@ end
 
 %for calculating the manually editted channels
 
-mybuiltins=[{'sin'} {'cos'} {'log'} {'abs'} {'ABS'}];
 % mypattern='^[^\.\+\-\*\/\^\(\)]+(?=[\.\+\-\*\/\^\(\)])|(?<=[\+\-\*\/\^\(\)])[^\.\+\-\*\/\^\(\)]+(?=[\.\+\-\*\/\^\(\)])|(?<=[\+\-\*\/\^\(\)])[^\.\+\-\*\/\^\(\)]+$';
 %there are three kinds, 1=begin + (non ope) + op; 2=op + (non op) +op; 
 %3=op +(non op) +end

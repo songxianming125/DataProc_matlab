@@ -1,6 +1,13 @@
 function s=upload(x,y,varargin)
 %% load the workspace t:y curve to DP
 % developed by Dr. SONG Xianming
+% upload(x,y,varargin)
+% x is time
+% y is signal
+% CurrentChannel=varargin{1};
+% Unit=varargin{2};
+% TimeUnit=varargin{3};
+
 global   MyCurves handles
 s=1;
 if isstruct(handles) && ishandle(handles.DP)
@@ -9,7 +16,7 @@ if isstruct(handles) && ishandle(handles.DP)
         signalName='y';
         Unit='au';
         TimeUnit='s';
-        CurrentShot=0;%for uniform
+        CurrentShot=str2double(get(handles.ShotNumber,'string'));%
 
         
         %% preparing the signal name and signal unit, time unit
