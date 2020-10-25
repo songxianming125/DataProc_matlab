@@ -1,5 +1,5 @@
 function [vecY,VecT,varargout]=Formula(CurrentShot,Expression,varargin)
-%[vecY,vecT,strSys,strUnit]=Formula(iCurrentShot,strExpression,varargin);
+%%  [vecY,vecT,strSys,strUnit]=Formula(iCurrentShot,strExpression,varargin);
 %
 % input
 % option  VarName             DataType           Meaning

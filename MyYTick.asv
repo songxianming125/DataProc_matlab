@@ -75,7 +75,7 @@ else % modify the y tick
     %% grid on zero
     % tick is two times of step
     
-    [yMin, yMax]=optimizeTicks(yMin, yMax,step,n2);
+    [yMin, yMax]=optimizeTicks(yMin, yMax,step);
     %% if data is not in the range, change step again
     if yMin>yLim(1) || yMax<yLim(2)
         if Index<length(fStep)
@@ -84,7 +84,7 @@ else % modify the y tick
         else
             step = step*1.25;
         end
-        [yMin, yMax]=optimizeTicks(yMin, yMax,step,n2);
+        [yMin, yMax]=optimizeTicks(yMin, yMax,step);
     end
     
     
@@ -167,7 +167,7 @@ return
 
 
 
-function [yMin, yMax]=optimizeTicks(yMin, yMax,step,n2)
+function [yMin, yMax]=optimizeTicks(yMin, yMax,step)
 adjustfactor=0.01;
 if abs(yMax)>=abs(yMin)
     iNumber=floor(yMin/step-adjustfactor);
