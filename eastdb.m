@@ -2,6 +2,7 @@ function [y,x,varargout]=eastdb(CurrentShot,CurrentChannel,varargin)
 z=[];
 %% CurrentChannel should be definite
 machine='east';
+setappdata(0,'machine',machine);
 
 switch CurrentChannel(1)
     case '@'
