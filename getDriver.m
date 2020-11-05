@@ -19,10 +19,20 @@ if ispc
                 myUserPwd=strrep(myUserPwd,char(31),char(32));
                 [s,r]=dos(myUserPwd);
                 if s
-                    newServer='c:\das';
-                    sxDriver=newServer;
-                    msgbox('internet? /or license?','not ready!','error');
-                    return
+                    user='swip\';
+                    psw='';
+                    [user,psw]=logindlg(user,psw);
+                    warnstr='No password file, login for this session!';
+                    setappdata(0,'MyErr',warnstr);
+                    myUserPwd=strcat('net use',char(31),newServer,char(31),psw,char(31), '/user:',user);
+                    myUserPwd=strrep(myUserPwd,char(31),char(32));
+                    [s1,r]=dos(myUserPwd);
+                    if s1
+                        newServer='c:\das';
+                        sxDriver=newServer;
+                        msgbox('internet? /or wrong account?','not ready!','error');
+                        return
+                    end
                 end
 
                 if strcmp(user,'swip\songxm')

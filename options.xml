@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<option xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<machine>exl50</machine>
+<option xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><!-- machine : hl2a,hl2m,exl50,east,localdas -->
+<machine>hl2m</machine>
 </option>

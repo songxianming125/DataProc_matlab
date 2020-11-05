@@ -34,7 +34,7 @@ pr = realpow(10,rn);
 
 
 step=dY/n2;
-fStep=[0.1, 0.125, 0.15, 0.2, 0.25, 0.4, 0.5, 0.75, 1.0, 1.2, 1.5, 1.6, 2.0]*pr;
+fStep=[0.1, 0.125, 0.15, 0.2, 0.25, 0.4, 0.5, 0.75, 1.0, 1.25, 1.5, 1.6, 2.0]*pr;
  
 % test whether ylimit/step are integers and step is exactly the favorite choice values?
 if mod(yMin,step)+mod(yMax,step)+min(abs(step-fStep))<eps % y tick is ok

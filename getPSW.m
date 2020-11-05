@@ -29,10 +29,13 @@ if iExistFile==2
     remain = fread(fid, '*char')';
     fclose(fid);
 else
-    warnstr='NO PASSWORD, ONLY local file can be read!';
+    user='swip\';
+    psw='';
+    [user,psw]=logindlg(user,psw);
+    warnstr='No password file, login for this session!';
     setappdata(0,'MyErr',warnstr);
-    disp(warnstr)
-    msgbox('Please use the licensed DP! register Now!','Internet is OK?','error');
+%     disp(warnstr)
+%     msgbox('Please use the licensed DP! register Now!','Internet is OK?','error');
     return
 end
 %%

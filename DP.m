@@ -22,15 +22,19 @@ elseif nargin && isnumeric(varargin{1})
     switch varargin{1}
         case 0
             setappdata(0,'machine','hl2a');
+            setOptionParameter('machine','hl2a')
         case 1
             setappdata(0,'machine','localdas');
+            setOptionParameter('machine','localdas')
         case 2
             setappdata(0,'machine','east');
+            setOptionParameter('machine','east')
         case 3
             setappdata(0,'machine','exl50');
-            
+            setOptionParameter('machine','exl50')
         case 4
             setappdata(0,'machine','hl2m');
+            setOptionParameter('machine','hl2m')
     end
 else
     
@@ -2888,9 +2892,7 @@ evalin('base','clc;');
 % --- Executes on button press in CConfiguration.
 function CConfiguration_Callback(hObject, eventdata, handles)
 setappdata(0,'clickConfigMode','chnlConfig');
-
-MyPath = which('DP');
-dir_struct = dir([MyPath(1:end-4) 'configuration']);
+dir_struct = dir(getDProot('configuration'));
 [n,m]=size(dir_struct);
 [sorted_names,sorted_index] = sortrows({dir_struct.name}');
 
@@ -2898,9 +2900,6 @@ Mylist={dir_struct.name};
 set(handles.lbConfiguration,'Value',1);
 set(handles.lbConfiguration,'String',Mylist);
 
-% --- Executes on button press in ShotOK.
-% function ShotOK_Callback(hObject, eventdata, handles)
-% ShotNumber_Callback(handles.ShotNumber, eventdata, handles)
 
 % --- Executes on selection change in LayoutMode.
 function LayoutMode_Callback(hObject, eventdata, handles)

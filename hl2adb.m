@@ -1,6 +1,4 @@
 function [y,x,varargout]=hl2adb(CurrentShot,CurrentChannel,varargin)
-
-
 %   This is copylefted free software,
 %   but services is not free. Thank you for your cooperation.
 %   Once your feedback is accepted, you can get free service two times.
