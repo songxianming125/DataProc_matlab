@@ -1,12 +1,12 @@
 function s=upload(x,y,varargin)
-%% load the workspace t:y curve to DP
-% developed by Dr. SONG Xianming
+%% load the workspace x:y curve to DP
 % upload(x,y,varargin)
 % x is time
 % y is signal
 % CurrentChannel=varargin{1};
 % Unit=varargin{2};
 % TimeUnit=varargin{3};
+% developed by Dr. SONG Xianming
 
 global   MyCurves handles
 s=1;

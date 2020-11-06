@@ -1,9 +1,12 @@
 function varargout = DP(varargin)
-%This program is developed by Dr. Song Xianming and tested by advanced
-%software engineer Luo Cuiwen.
-%Southwestern Institute of Physic, PO. Box 432#, Chengdu, China. All right reserved.
-%No part of the software can be copied or used without the official
-%approval. Thank you for your cooperation.
+%% Use machine code to initialize the machine when changing machine
+% usage: DP(iMachineCode)
+% iMachineCode: 0=hl2a, 1=localdas, 2=exl50, 3=east,4=hl2m
+% for hl2a and hl2m, when asking for account, inputh your domain account
+% This program is developed by Dr. Song Xianming and tested by Luo Cuiwen.
+% Southwestern Institute of Physic, PO. Box 432#, Chengdu, China. All right reserved.
+% No part of the software can be copied or used without the official
+% approval. Thank you for your cooperation.
 % coauthor of this program from 2013:
 % Dr. Tao Lan from CAS Key Laboratory of Basic Plasma Physics, USTC 1958-2012
 % Dr. Zhong Wulv from Southwestern Institute of Physic, Chengdu,China.
