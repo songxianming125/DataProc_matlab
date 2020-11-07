@@ -1835,7 +1835,8 @@ try
                     %display the channel information
                     CurrentInf=CurrentInfs(ChannelIndex);
                     names = fieldnames(CurrentInf);
-                    
+                    %% cancel LF and CR
+                    CurrentInf.ChnlName=regexprep(CurrentInf.ChnlName,'[\x{a}\x{d}]','\x0');
                     myValues = struct2cell(CurrentInf);
                     
                     %         n=length(names);

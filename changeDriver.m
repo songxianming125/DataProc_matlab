@@ -5,7 +5,11 @@ function machine=changeDriver(machine)
 global  newServer  % for hl2a and hl2m
 if nargin>0
     [IpAddress,strTreeName] = getIpTree4Machine(machine);
-    newServer=['\\' IpAddress '\' strTreeName{1}];
+    if strcmpi(machine,'localdas')
+        newServer=[IpAddress '\' strTreeName{1}];
+    else
+        newServer=['\\' IpAddress '\' strTreeName{1}];
+    end
     setappdata(0,'newServer',newServer);
     setappdata(0,'machine',machine);
 else
