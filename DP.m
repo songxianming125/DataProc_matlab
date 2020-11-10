@@ -1838,17 +1838,6 @@ try
                     %% cancel LF and CR
                     CurrentInf.ChnlName=regexprep(CurrentInf.ChnlName,'[\x{a}\x{d}]','\x0');
                     myValues = struct2cell(CurrentInf);
-                    
-                    %         n=length(names);
-                    %         myValues(1:n)={''};
-                    %         for i=1:n
-                    %             myValue = getfield(CurrentInf,names{i});
-                    %             if isnumeric(myValue)
-                    %                 myValues(i)={num2str(myValue)};
-                    %             else
-                    %                 myValues(i)={myValue};
-                    %             end
-                    %         end
                     if isempty(isVIP)
                         isVIP=1;
                     end

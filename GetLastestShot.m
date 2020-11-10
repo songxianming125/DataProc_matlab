@@ -7,8 +7,8 @@ machine=getappdata(0,'machine');
 
 if isempty(machine)
     machine=getOptionParameter('machine');
-    changeDriver(machine);
 end
+changeDriver(machine);
 
 switch machine
     case {'exl50','east','ehl'}
