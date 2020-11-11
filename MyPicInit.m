@@ -14,7 +14,7 @@ PicStruct.Debug5=0;%for browser information
 
 
 
-PicStruct.version='20200304';%version check
+PicStruct.version='Nov2020';%version check
 PicStruct.isPublish=0;  %0=no publish 1=publish
 PicStruct.myleft=0.1;
 PicStruct.mybottom=0.1;%ceil(0.08*scrsz(4));

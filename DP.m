@@ -145,7 +145,7 @@ set(handles.SortMode,'String','nosorting');
 
 
 ResizeDataProc(handles);
-set(handles.UpdateShot,'String',['Update|',MyPicStruct.version])
+set(handles.UpdateShot,'String',['Ver|',MyPicStruct.version])
 set(handles.AddCurve,'KeyPressFcn',{@KeyPress_Function,handles});
 
 setappdata(0,'handles',handles);

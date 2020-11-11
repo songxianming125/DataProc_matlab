@@ -4,11 +4,14 @@ function sxDriver=getDriver
 % 2019.12.6 modified
 % no WINS service is needed.  all \\hl is replaced by \\192. automatically
 global  newServer isVIP
-newServer=getappdata(0,'newServer');
-if isempty(newServer)
+% newServer=getappdata(0,'newServer');
+
+machine=getappdata(0,'machine');
+if isempty(machine)
     machine=getOptionParameter('machine');
-    changeDriver(machine);   
 end
+changeDriver(machine);   
+
 sxDriver=newServer;
 isVIP=0;
 if ispc

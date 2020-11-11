@@ -340,6 +340,7 @@ else
         isChannelOK=0;
         %%
         if ~isempty(CurrentSysName) && length(CurrentSysName)==3
+            %% switch machine
             CurrentInfoFile = getInfFileName(CurrentShot,CurrentSysName);
             % if the sysName is wrong, try to find the right sysName and go ahead.
             if ~exist(CurrentInfoFile,'file') 
