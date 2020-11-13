@@ -1160,8 +1160,16 @@ try
                 
                 case 'exl50'
                     [y,x,Unit,z]=exl50db(CurrentShot,CurrentChannel,timeContext);
+                   
                 case 'east'
                     [y,x,Unit,z]=eastdb(CurrentShot,CurrentChannel,timeContext);
+            end
+            
+            %% y value and unit conditionning
+            
+            if max(y)>1e4
+                y=y/1000;
+                Unit=['k' Unit];
             end
             
             
@@ -1550,6 +1558,19 @@ try
                         CurrentVecInf=CurrentVecInfs(CurrentSelectNum);
                         [y,x,CurrentSysName,Unit]=hl2avec(CurrentShot,CurrentChannel,CurrentDataFile,CurrentVecInf);
                 end
+                
+                
+            %% y value and unit conditionning
+            
+            if max(y)>1e4
+                y=y/1000;
+                Unit=['k' Unit];
+            end
+            
+            
+                
+                
+                
                 
                 %% here time unit is ms
                 if strcmp(MyPicStruct.timeUnit,'ms')
@@ -2610,8 +2631,9 @@ if isempty(myWarning)
             set(handles.lbChannels,'UserData',[]);
             set(handles.lbChannels,'String',MyChanLists);
             set(handles.lbChannels,'Value',length(MyChanLists));
-            set(handles.lbConfiguration,'Value',0);
-            set(handles.lbConfiguration,'String',[]);
+            
+%             set(handles.lbConfiguration,'Value',0);
+%             set(handles.lbConfiguration,'String',[]);
             
         case 'extend'
             R1_Callback([], [], handles)

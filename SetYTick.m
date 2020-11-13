@@ -24,7 +24,7 @@ end
 if nargin>=4 && ~isempty(varargin{4})
     GapMode=varargin{4};
 end
-
+  
 if nargin>=5 && ~isempty(varargin{5})
     yTickMarginMode=varargin{5};
 end
