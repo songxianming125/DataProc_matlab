@@ -524,12 +524,13 @@ end
 % forced to used one column
 rowMax={PicDescription(:).Location};
 rowMax=max(cell2mat(rowMax));
-
-if length(MyCurves)>rowMax
-    defaultRowNumber=rowMax/2;
+if rowMax>6
+    defaultRowNumber=ceil(rowMax/2);
 else
     defaultRowNumber=6;
 end
+
+
 %totalRowNumber=ceil(length(MyCurves)/NumShot);
 if length(Loc2Axes)<=defaultRowNumber % length(Loc2Axes)
     MyPicStruct.RowNumber=length(Loc2Axes);
