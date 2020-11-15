@@ -97,11 +97,11 @@ if n~=length(PicDescription);%1=Modified,0=Not Modified
         PicDescription(i).Color=MyPicStruct.Color;
         PicDescription(i).Marker=MyPicStruct.Marker;
         PicDescription(i).LineStyle=MyPicStruct.LineStyle;
-        %% automaticly set the digital number in right position of point
+        %% automaticly set the digital number in right point
         dYRN=max(abs(MyCurves(i).yMax),abs( MyCurves(i).yMin));
         RN = floor(log10(dYRN));
         if RN<=2
-            PicDescription(i).RightDigit= 2-RN;  % MyPicStruct.RightDigit;
+            PicDescription(i).RightDigit= 3-RN;  % MyPicStruct.RightDigit;
         else
             PicDescription(i).RightDigit= 0;  % MyPicStruct.RightDigit;
         end

@@ -3,6 +3,7 @@ function Yy=MyYTick(ha,n,defRightDigit)
 % This program is developed by Dr. SONG Xianming.
 % Southwestern Institute of Physic, PO. Box 432#, Chengdu, China. All right reserved.
 
+% When the y is bigger enough than 1, ignore the defRightDigit.
 
 n2=2*n;
 
