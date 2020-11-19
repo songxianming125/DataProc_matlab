@@ -12,7 +12,7 @@ CurrentChannels=CurrentChannel;
 
 switch DataFlag
     
-    case 0
+    case {0,4}
         %ip,dv,dh. special process for composite channel
         switch lower(CurrentChannel(1))
             %control the output mode from smoothstatus

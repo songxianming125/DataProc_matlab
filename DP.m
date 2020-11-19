@@ -588,8 +588,8 @@ switch clickConfigMode
         load(cfgFile);
         % update struct
         Struct2View(handles)
-        
-        MyCurveList=regexp(MyCurveList,'\w*$','match','once');
+        %% keep # in channel name
+        MyCurveList=regexp(MyCurveList,'[\w#]*$','match','once');
         MyCurveList=DrawConfigurationChannel(MyCurveList,handles);
         
         if ~isempty(MyCurveList)
@@ -2232,6 +2232,7 @@ switch machine
             return
         elseif MyNum==1
             CurrentChannel=regexp(MyCurveList{1},'\w*$','match','once');
+            %% how many shot in mycurve
             totalNumShot=0;
             for iCurveList=1:length(MyCurveList)
                 CurrentChannelNew=regexp(MyCurveList{iCurveList},'\w*$','match','once');

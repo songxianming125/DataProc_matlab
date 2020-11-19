@@ -25,8 +25,8 @@ PicStruct.timeUnit='s';  %s or ms
 
 switch DataFlag
     case 1
-        PicStruct.xleft=-2;
-        PicStruct.xright=7;
+        PicStruct.xleft=-6;
+        PicStruct.xright=6;
 %         PicStruct.xleft=0;
 %         PicStruct.xright=2000;
         PicStruct.xStep=0.001;
