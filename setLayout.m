@@ -37,7 +37,10 @@ for iC=1:ColumnNumber
         if ~isempty(ha)
             Lnum=sum(HeightNumber(1:iR));
             Wnum=sum(WidthNumber(1:iC))-WidthNumber(iC);
-            
+            set(ha(CurrentAxes),'Units','pixels')
+            if CurrentAxes>1
+                set(ha(CurrentAxes),'XTickLabel',[])
+            end
             if (HeightNumber(iR)==0) || (WidthNumber(iC)==0)
                 set(ha(CurrentAxes),'Position',[2000+BkLeft BkBottom+BkHeight-HeightUnit*Lnum WidthUnit HeightUnit]);%move out our sight
             else

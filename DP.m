@@ -3405,7 +3405,7 @@ switch machine
             'Enable',                   'on', ...
             'callback',                {@myhFileSelect,hChannelSelect,hFile,hDependence},...
             'Tooltipstring',            'Select the channel');
-            set(hChannelSelect,'callback',{@myChannelSelect,hExpression,hDependence,hShotNumber,hFile,hDisplay})
+%             set(hChannelSelect,'callback',{@myChannelSelect,hExpression,hDependence,hShotNumber,hFile,hDisplay})
     otherwise
         hChannelSelect = uicontrol('parent',                   hfigNames,...
             'Units',                    'pixels', ...
@@ -3446,6 +3446,11 @@ hShotNumber=uicontrol('parent',                   hfigNames,...
     'Position',[0 scrsz(2)+hstep+hListbox wListbox+wstep/2 hstep ],...
     'String', num2str(LastestShot),...
     'callback', {@myhShotNumber,hFileSelect});
+
+set(hChannelSelect,'callback',{@myChannelSelect,hExpression,hDependence,hShotNumber,hFile,hDisplay})
+
+
+
 for i=1:m
     hCommand(i) = uicontrol('parent',                   hfigNames,...
         'Units',                    'pixels', ...
@@ -4098,7 +4103,7 @@ try
             [y,x]=exl50db(CurrentShot,defaultChannel);
         otherwise
             if isempty(defaultChannel)
-                defaultChannel='ip';
+                defaultChannel='ip_vv_2m';
                 setappdata(0,'defaultChannel',defaultChannel);
             end
             defaultChannel=regexp(defaultChannel,'\w*$','match','once');
